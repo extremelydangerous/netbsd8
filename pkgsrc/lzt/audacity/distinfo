@@ -5,6 +5,7 @@ RMD160 (audacity-minsrc-2.1.2.tar.xz) = 47fccf8b96b6db95a677045bf122084d233bd80c
 SHA512 (audacity-minsrc-2.1.2.tar.xz) = 46bc68825d29e88b14a674749532345ab63673ea1b85ad0d2a1b72b0974c74d2175e0ef307dad735592d18e56c1e0c65f994f4ee05d9e0f1aec194cd02c930da
 Size (audacity-minsrc-2.1.2.tar.xz) = 7233500 bytes
 SHA1 (patch-Makefile.in) = d91dfadeeae86ced604b14248da1864a8edbae83
+SHA1 (patch-effects) = 1f215a74ca83db28e7fca4da1dd1d31d039d1f62
 SHA1 (patch-lib-src_FileDialog_Makefile.am) = 382e9e23fa5d75b6f7d04afb2e5ed8da6a88c852
 SHA1 (patch-lib-src_FileDialog_Makefile.in) = c2fe6c7e25e8d08e4aa877794ad3bf5ea131391b
 SHA1 (patch-lib-src_lib-widget-extra_Makefile.am) = 257a1ac7933ea85adca8a484434beb3092ce3ce3

@@ -1,0 +1,32 @@
+diff -ru /usr/tmp/audacity-minsrc-2.1.2/src/effects/lv2/LV2Effect.cpp ./src/effects/lv2/LV2Effect.cpp
+--- /usr/tmp/audacity-minsrc-2.1.2/src/effects/lv2/LV2Effect.cpp	2016-01-13 12:31:24.000000000 -0200
++++ ./src/effects/lv2/LV2Effect.cpp	2017-10-22 23:44:49.000000000 -0200
+@@ -562,13 +562,13 @@
+       lilv_scale_points_free(points);
+ 
+       // Collect the value and range info
+-      ctrl.mHasLo = !isnan(minimumVals[i]);
+-      ctrl.mHasHi = !isnan(maximumVals[i]);
++      ctrl.mHasLo = !std::isnan(minimumVals[i]);
++      ctrl.mHasHi = !std::isnan(maximumVals[i]);
+       ctrl.mMin = ctrl.mHasLo ? minimumVals[i] : 0.0;
+       ctrl.mMax = ctrl.mHasHi ? maximumVals[i] : 1.0;
+       ctrl.mLo = ctrl.mMin;
+       ctrl.mHi = ctrl.mMax;
+-      ctrl.mDef = !isnan(defaultValues[i]) ?
++      ctrl.mDef = !std::isnan(defaultValues[i]) ?
+                   defaultValues[i] :
+                      ctrl.mHasLo ?
+                      ctrl.mLo :
+diff -ru /usr/tmp/audacity-minsrc-2.1.2/src/effects/nyquist/Nyquist.cpp ./src/effects/nyquist/Nyquist.cpp
+--- /usr/tmp/audacity-minsrc-2.1.2/src/effects/nyquist/Nyquist.cpp	2016-01-13 12:31:24.000000000 -0200
++++ ./src/effects/nyquist/Nyquist.cpp	2017-10-22 23:42:44.000000000 -0200
+@@ -666,7 +666,7 @@
+                // with very small values, bandwidth calculation may be inf.
+                // (Observed on Linux)
+                double bw = log(mF1 / mF0) / log(2.0);
+-               if (!isinf(bw)) {
++               if (!std::isinf(bw)) {
+                   bandwidth.Printf(wxT("(float %s)"), Internat::ToString(bw).c_str());
+                }
+             }

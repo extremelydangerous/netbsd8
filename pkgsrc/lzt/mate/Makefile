@@ -13,6 +13,8 @@ META_PACKAGE=	yes
 
 .include "../../meta-pkgs/mate/Makefile.common"
 
+DEPENDS+=	python36>0:../../lang/python36
+DEPENDS+=	python27>0:../../lang/python27
 DEPENDS+=	rsync:../../net/rsync
 DEPENDS+=	cups>0:../../print/cups
 DEPENDS+=	pulseaudio>0:../../audio/pulseaudio

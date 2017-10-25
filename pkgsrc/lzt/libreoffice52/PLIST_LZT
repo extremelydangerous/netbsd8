@@ -99,7 +99,6 @@ ${PKGNAME}/lib/libreoffice/program/libanalysislo.so
 ${PKGNAME}/lib/libreoffice/program/libanimcorelo.so
 ${PKGNAME}/lib/libreoffice/program/libavmediagst.so
 ${PKGNAME}/lib/libreoffice/program/libavmedialo.so
-${PKGNAME}/lib/libreoffice/program/libavmediaogl.so
 ${PKGNAME}/lib/libreoffice/program/libbasctllo.so
 ${PKGNAME}/lib/libreoffice/program/libbasegfxlo.so
 ${PKGNAME}/lib/libreoffice/program/libbasprovlo.so

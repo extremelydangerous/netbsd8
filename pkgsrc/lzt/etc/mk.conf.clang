@@ -72,7 +72,6 @@ CXXFLAGS+=			-Wno-unused-function
 #.include "/etc/mk/builtins.mk"
 #######BUILTINS NOOOOOOOOOOOO############
 USE_BUILTIN.gettext:=		no
-USE_BUILTIN.MesaLib:=		yes
 USE_BUILTIN.openssl:=		yes
 USE_BUILTIN.sqlite3:=		yes
 USE_BUILTIN.xz:=		yes

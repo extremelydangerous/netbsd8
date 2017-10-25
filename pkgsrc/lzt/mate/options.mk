@@ -63,7 +63,8 @@ DEPENDS+=	pcb:../../lzt/pcb
 DEPENDS+=	aumix-gtk:../../audio/aumix-gtk
 DEPENDS+=	rhythmbox:../../audio/rhythmbox
 DEPENDS+=	abiword:../../editors/abiword
-.if !empty(OS_VERSION:M6.*)
+.if !empty(OS_VERSION:M6.*) || \
+	!empty(OS_VERSION:M8.*)
 .include "../../lzt/libreoffice52/buildlink3.mk"
 .include "../../lzt/audacity/buildlink3.mk"
 .else

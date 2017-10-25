@@ -2,14 +2,7 @@ $NetBSD$
 
 --- retroshare.pri.orig	2016-08-31 11:24:02.000000000 +0000
 +++ retroshare.pri
-@@ -3,18 +3,30 @@
- #CONFIG *= libresapilocalserver
- 
- # To {dis,en}able libresapi via HTTP (libmicrohttpd) {,un}comment the following line
--CONFIG *= libresapihttpserver
-+CONFIG *= libresapihttpserver
- 
- # Gxs is always enabled now.
+@@ -9,12 +9,24 @@ CONFIG *= libresapihttpserver
  DEFINES *= RS_ENABLE_GXS
  
  unix {
