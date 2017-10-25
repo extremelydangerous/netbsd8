@@ -1,0 +1,12 @@
+diff -up usr/src/libexec/ld.elf_so/reloc.c.orig usr/src/libexec/ld.elf_so/reloc.c
+--- usr/src/libexec/ld.elf_so/reloc.c.orig	2017-10-22 13:17:40.791394000 -0200
++++ usr/src/libexec/ld.elf_so/reloc.c	2017-10-22 13:18:13.657743000 -0200
+@@ -186,7 +186,7 @@ _rtld_relocate_objects(Obj_Entry *first,
+ 		    (long)(obj->pltrelalim - obj->pltrela)));
+ 
+ 		if (obj->textrel) {
+-			xwarnx("%s: text relocations", obj->path);
++			// xwarnx("%s: text relocations", obj->path);
+ 			/*
+ 			 * There are relocations to the write-protected text
+ 			 * segment.

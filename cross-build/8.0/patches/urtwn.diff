@@ -1,0 +1,122 @@
+diff -up usr/src/sys/dev/usb/if_urtwn.c.orig /usr/src/sys/dev/usb/if_urtwn.c
+--- usr/src/sys/dev/usb/if_urtwn.c.orig	2017-01-08 20:57:31.000000000 -0200
++++ usr/src/sys/dev/usb/if_urtwn.c	2017-01-09 07:53:38.000000000 -0200
+@@ -326,6 +326,7 @@ urtwn_attach(device_t parent, device_t s
+ 
+ 	usb_init_task(&sc->sc_task, urtwn_task, sc, 0);
+ 
++	sc->chip_inited=0;
+ 	callout_init(&sc->sc_scan_to, 0);
+ 	callout_setfunc(&sc->sc_scan_to, urtwn_next_scan, sc);
+ 	callout_init(&sc->sc_calib_to, 0);
+@@ -459,6 +460,7 @@ urtwn_attach(device_t parent, device_t s
+ 
+  fail:
+ 	sc->sc_dying = 1;
++	sc->chip_inited=0;
+ 	aprint_error_dev(self, "attach failed\n");
+ }
+ 
+@@ -482,6 +484,7 @@ urtwn_detach(device_t self, int flags)
+ 
+ 	if (ISSET(sc->sc_flags, URTWN_FLAG_ATTACHED)) {
+ 		usb_rem_task(sc->sc_udev, &sc->sc_task);
++		sc->chip_inited=0;
+ 		urtwn_stop(ifp, 0);
+ 
+ 		ifp->if_flags &= ~(IFF_RUNNING | IFF_OACTIVE);
+@@ -4176,8 +4179,14 @@ urtwn_init(struct ifnet *ifp)
+ 
+ 	mutex_enter(&sc->sc_write_mtx);
+ 
+-	mutex_enter(&sc->sc_task_mtx);
++	if (sc->chip_inited) {
++		ifp->if_flags &= ~IFF_OACTIVE;
++		ifp->if_flags |= IFF_RUNNING;
++		mutex_exit(&sc->sc_write_mtx);
++		return(0);
++	}
+ 	/* Init host async commands ring. */
++	mutex_enter(&sc->sc_task_mtx);
+ 	sc->cmdq.cur = sc->cmdq.next = sc->cmdq.queued = 0;
+ 	mutex_exit(&sc->sc_task_mtx);
+ 
+@@ -4202,14 +4211,19 @@ urtwn_init(struct ifnet *ifp)
+ 
+ 	/* Power on adapter. */
+ 	error = urtwn_power_on(sc);
+-	if (error != 0)
++	if (error != 0) {
++		aprint_error_dev(sc->sc_dev,
++		    "could not power on\n");
+ 		goto fail;
++	}
+ 
+ 	/* Initialize DMA. */
+ 	error = urtwn_dma_init(sc);
+-	if (error != 0)
++	if (error != 0) {
++		aprint_error_dev(sc->sc_dev,
++		    "could not initialize DMA\n");
+ 		goto fail;
+-
++	}
+ 	/* Set info size in Rx descriptors (in 64-bit words). */
+ 	urtwn_write_1(sc, R92C_RX_DRVINFO_SZ, 4);
+ 
+@@ -4313,8 +4327,11 @@ urtwn_init(struct ifnet *ifp)
+ 
+ 	/* Load 8051 microcode. */
+ 	error = urtwn_load_firmware(sc);
+-	if (error != 0)
++	if (error != 0) {
++		aprint_error_dev(sc->sc_dev,
++		    "could not load firmware\n");
+ 		goto fail;
++	}
+ 	SET(sc->sc_flags, URTWN_FLAG_FWREADY);
+ 
+ 	/* Initialize MAC/BB/RF blocks. */
+@@ -4390,14 +4407,18 @@ urtwn_init(struct ifnet *ifp)
+ 		    USBD_NO_TIMEOUT, urtwn_rxeof);
+ 		error = usbd_transfer(data->xfer);
+ 		if (__predict_false(error != USBD_NORMAL_COMPLETION &&
+-		    error != USBD_IN_PROGRESS))
++		    error != USBD_IN_PROGRESS)) {
++			aprint_error_dev(sc->sc_dev,
++		    	"USB TRANSFER NOT COMPLETE\n");
+ 			goto fail;
++		}
+ 	}
+ 
+ 	/* We're ready to go. */
+ 	ifp->if_flags &= ~IFF_OACTIVE;
+ 	ifp->if_flags |= IFF_RUNNING;
+ 
++	sc->chip_inited=1;
+ 	mutex_exit(&sc->sc_write_mtx);
+ 
+ 	if (ic->ic_opmode == IEEE80211_M_MONITOR)
+@@ -4424,7 +4445,10 @@ urtwn_stop(struct ifnet *ifp, int disabl
+ 	int s;
+ 
+ 	DPRINTFN(DBG_FN, ("%s: %s\n", device_xname(sc->sc_dev), __func__));
+-
++	if (sc->chip_inited) {
++		ifp->if_flags &= ~(IFF_RUNNING | IFF_OACTIVE);
++		return;
++	}
+ 	s = splusb();
+ 	ieee80211_new_state(ic, IEEE80211_S_INIT, -1);
+ 	urtwn_wait_async(sc);
+diff -up usr/src/sys/dev/usb/if_urtwnvar.h.orig /usr/src/sys/dev/usb/if_urtwnvar.h
+--- usr/src/sys/dev/usb/if_urtwnvar.h.orig	2017-01-09 07:21:25.000000000 -0200
++++ usr/src/sys/dev/usb/if_urtwnvar.h	2017-01-09 07:55:15.000000000 -0200
+@@ -137,6 +137,7 @@ struct urtwn_softc {
+ 	int				tx_npipe;
+ 	int				ac2idx[WME_NUM_AC];
+ 
++	int				chip_inited;
+ 	u_int				chip;
+ #define URTWN_CHIP_92C		0x01
+ #define URTWN_CHIP_92C_1T2R	0x02

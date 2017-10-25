@@ -1,0 +1,38 @@
+PROFILE=${1:-profilei386}
+
+. ./${PROFILE}
+
+echo TOOLS is $TOOLS
+echo OBJ is $OBJ
+
+NCPU=$(echo $(sysctl -n hw.ncpu) + 2 | bc)
+
+JOBS=${JOBS:-$NCPU}
+
+echo JOBS is $JOBS
+
+pwd=$(pwd)
+
+if [ ! -s usr/src/sys/arch/i386/conf/GENERIC.local ]
+then
+	cp GENERIC.local usr/src/sys/arch/i386/conf
+fi
+
+set -e
+if [ ! -s $TOOLS/bin/nbconfig ]
+then
+#	sh fix_bracket_error&
+	cd usr/src
+	JOBS=10
+#	rm -rf ${OBJ} ${TOOLS}
+	echo BUILD TOOLS....
+	sleep 3
+	mkdir -p $TOOLS $OBJ
+	./build.sh -j $JOBS -U -u -O $OBJ -T $TOOLS -m ${MACHINE} -a ${ARCH} tools
+#	sudo cp /usr/sbin/zic ${TOOLS}/bin/nbzic
+	echo TOOLS DONE
+	exit 0
+fi
+cd usr/src
+./build.sh -j $JOBS -U -u -O $OBJ -T $TOOLS -m ${MACHINE} -a ${ARCH} -x release
+./build.sh -j $JOBS -U -u -O $OBJ -T $TOOLS -m ${MACHINE} -a ${ARCH} -x iso-image

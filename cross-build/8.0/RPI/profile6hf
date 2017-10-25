@@ -1,0 +1,22 @@
+TOOLS=$(pwd)/tools
+OBJ=$(pwd)/obj
+ARCH=earmv6hf
+MACHINE=evbarm
+CC=gcc
+case $CC in
+clang)
+	export MAKECONF=$(pwd)/mk.conf.clang
+	export HOST_CC="clang"
+	export HOST_CXX="clang++"
+	export CPP="clang-cpp"
+	export CXXPP="clang++ -E"
+;;
+gcc)
+	export MAKECONF=$(pwd)/mk.conf.gcc
+	export HOST_CC="gcc48"
+	export HOST_CXX="g++48"
+	export CPP="cpp48"
+	export CXXPP="g++48 -E"
+;;
+esac
+IMGFILE=${OBJ}/releasedir/evbarm/binary/gzimg/rpi.img.gz

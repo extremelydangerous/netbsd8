@@ -1,0 +1,29 @@
+TOOLS=$(pwd)/tools
+OBJ=$(pwd)/obj
+MACHINE=i386
+ARCH=i386
+export MAKECONF=$(pwd)/mk.conf
+CC=clang
+case $CC in
+clang)
+	export HOST_CC="clang"
+	export HOST_CXX="clang++"
+	export CPP="clang-cpp"
+	export CXXPP="clang++ -E"
+;;
+gcc)
+	export HOST_CC="gcc48"
+	export HOST_CXX="g++48"
+	export CPP="cpp48"
+	export CXXPP="g++48 -E"
+;;
+esac
+#export CFLAGS="-fbracket-depth=1024 -Wno-parentheses-equality -Wno-array-bounds"
+#export CXXFLAGS="-fbracket-depth=1024 -Wno-parentheses-equality -Wno-array-bounds"
+#export CC="clang"
+#export CPP="clang-cpp"
+#export CXX="clang++"
+#export CXXPP="clang++ -E"
+#export NOSSP=yes
+#export HAVE_SSP=no
+#IMGFILE=${OBJ}/releasedir/evbarm/binary/gzimg/armv7.img.gz

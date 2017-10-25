@@ -1,0 +1,13 @@
+#!/bin/sh
+
+DAY=201710181440Z
+DAY=201710161240Z
+URL=http://nyftp.netbsd.org/pub/NetBSD-daily/netbsd-8/$DAY/source/sets
+set -e
+mkdir -p sets
+cd sets
+rm -rf *.tgz
+for i in gnusrc.tgz sharesrc.tgz src.tgz syssrc.tgz xsrc.tgz
+do
+	wget -c ${URL}/$i
+done

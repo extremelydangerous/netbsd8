@@ -1,0 +1,9 @@
+if [ ! -d sets ]
+then
+	sh getsets
+fi
+for i in sets/*.tgz
+do
+	tar xpvzf $i
+done
+#patch < patch-sources

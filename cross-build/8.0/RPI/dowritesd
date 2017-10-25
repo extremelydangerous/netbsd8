@@ -1,0 +1,4 @@
+PROFILE=${1:-profile7hf}
+. ./${PROFILE}
+gzip -d < ${IMGFILE} | \
+sudo /bin/sh -c "dd bs=64k of=/dev/da0"

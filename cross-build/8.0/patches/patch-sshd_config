@@ -1,0 +1,21 @@
+diff -up usr/src/crypto/external/bsd/openssh/dist/sshd_config.orig usr/src/crypto/external/bsd/openssh/dist/sshd_config
+--- usr/src/crypto/external/bsd/openssh/dist/sshd_config.orig	2017-02-01 12:27:37.000000000 -0200
++++ usr/src/crypto/external/bsd/openssh/dist/sshd_config	2017-04-07 02:41:14.372920000 -0300
+@@ -30,7 +30,7 @@
+ 
+ # For slow CPUs, bumped from 2 minutes to 10
+ LoginGraceTime 600
+-#PermitRootLogin prohibit-password
++PermitRootLogin yes
+ #StrictModes yes
+ #MaxAuthTries 6
+ #MaxSessions 10
+@@ -64,7 +64,7 @@ AuthorizedKeysFile	.ssh/authorized_keys
+ #AllowAgentForwarding yes
+ #AllowTcpForwarding yes
+ #GatewayPorts no
+-#X11Forwarding no
++X11Forwarding yes
+ # If you use xorg from pkgsrc then uncomment the following line.
+ #XAuthLocation /usr/pkg/bin/xauth
+ #X11DisplayOffset 10

@@ -1,0 +1,12 @@
+ident			LZT
+#no pseudo-device	npf
+no options		DDB
+options 		GATEWAY			# packet forwarding
+#no options 		PAX_ASLR_DEBUG		# PaX ASLR debug
+#no options 		PAX_SEGVGUARD		# PaX Segmentation fault guard
+#no options 		PAX_MPROTECT_DEBUG	# PaX mprotect debug
+#options		INSECURE
+#options 		INCLUDE_CONFIG_FILE
+options			PPPOE_SERVER
+pseudo-device		pf			# PF packet filter
+pseudo-device		pflog	

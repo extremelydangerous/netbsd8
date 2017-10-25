@@ -1,0 +1,8 @@
+diff -up usr/src/etc/root/dot.profile.orig usr/src/etc/root/dot.profile
+--- usr/src/etc/root/dot.profile.orig	2017-07-28 22:10:59.448941000 -0300
++++ usr/src/etc/root/dot.profile	2017-07-28 22:12:58.759346000 -0300
+@@ -21,3 +21,4 @@ export ENV=/root/.shrc
+ if [ -z "$SU_FROM" ]; then
+         echo "We recommend that you create a non-root account and use su(1) for root access."
+ fi
++export PKG_PATH=ftp://netbsd.k1.com.br/$(uname -s)/$(uname -s)-$(uname -p)-$(uname -r)/packages

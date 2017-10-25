@@ -1,0 +1,2 @@
+gendiff usr/src/distrib/utils/embedded/conf .orig
+gendiff usr/src/etc .orig

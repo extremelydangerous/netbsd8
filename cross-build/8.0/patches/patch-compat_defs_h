@@ -1,0 +1,13 @@
+diff -up usr/src/tools/compat/compat_defs.h.orig usr/src/tools/compat/compat_defs.h
+--- usr/src/tools/compat/compat_defs.h.orig	2016-10-19 19:54:20.000000000 -0200
++++ usr/src/tools/compat/compat_defs.h	2016-11-15 13:53:44.739115000 -0200
+@@ -41,6 +41,9 @@
+ #include <errno.h>
+ #include <fcntl.h>
+ #include <limits.h>
++#ifndef UCHAR_MAX
++#error "oops, UCHAR_MAX should be defined by now"
++#endif
+ #include <paths.h>
+ #include <stdarg.h>
+ #include <stdio.h>

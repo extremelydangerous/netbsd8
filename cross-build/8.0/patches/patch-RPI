@@ -1,0 +1,26 @@
+--- /dev/null	2017-05-01 23:31:00.000000000 -0300
++++ usr/src/sys/arch/evbarm/conf/RPI.local	2017-05-01 23:30:50.104745000 -0300
+@@ -0,0 +1,23 @@
++no pseudo-device	npf
++no pseudo-device	veriexec
++no options		DDB
++no options	 	FILEASSOC		# fileassoc(9) - required for Veriexec
++no options		VERIFIED_EXEC_FP_RMD160
++no options		VERIFIED_EXEC_FP_SHA256
++no options		VERIFIED_EXEC_FP_SHA384
++no options		VERIFIED_EXEC_FP_SHA512
++no options		VERIFIED_EXEC_FP_SHA1
++no options		VERIFIED_EXEC_FP_MD5
++no options 		PAX_ASLR_DEBUG		# PaX ASLR debug
++no options 		PAX_SEGVGUARD		# PaX Segmentation fault guard
++no options 		PAX_MPROTECT		# PaX mprotect(2) restrictions
++no options 		PAX_MPROTECT_DEBUG	# PaX mprotect debug
++no options 		PAX_ASLR		# PaX Address Space Layout Randomization
++options 		GATEWAY			# packet forwarding
++options			INSECURE
++options 		INCLUDE_CONFIG_FILE
++options			PPPOE_SERVER
++options			PPP_BSDCOMP
++options			PPP_DEFLATE
++pseudo-device		pf			# PF packet filter
++pseudo-device		pflog	
